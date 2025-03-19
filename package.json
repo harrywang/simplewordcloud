@@ -1,6 +1,6 @@
 {
   "name": "@harryjwang/simplewordcloud",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simple word cloud generator supporting English and Chinese text",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

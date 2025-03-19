@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpleWordCloud Debug</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    #wordcloud-container {
+      border: 1px solid #ddd;
+      padding: 20px;
+      min-height: 400px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SimpleWordCloud Debug</h1>
+  
+  <div id="wordcloud-container"></div>
+  
+  <script src="dist/browser/simplewordcloud.min.js"></script>
+  <script>
+    // Check if SimpleWordCloud is defined
+    console.log('SimpleWordCloud object:', window.SimpleWordCloud);
+    
+    // Simple test text
+    const text = 'This is a test of the SimpleWordCloud library. We are testing if it works in the browser environment. This is a simple test with repeated words to see if word frequency is calculated correctly.';
+    
+    // Get container
+    const container = document.getElementById('wordcloud-container');
+    
+    try {
+      // Try to generate word cloud
+      if (window.SimpleWordCloud && window.SimpleWordCloud.generateWordCloud) {
+        window.SimpleWordCloud.generateWordCloud(text, 'english', container, {
+          width: container.offsetWidth,
+          height: 400,
+          maxWords: 50
+        });
+        console.log('Word cloud generation completed');
+      } else {
+        container.innerHTML = '<p style="color: red;">Error: SimpleWordCloud.generateWordCloud function not found!</p>';
+        console.error('SimpleWordCloud.generateWordCloud function not found!');
+      }
+    } catch (error) {
+      container.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
+      console.error('Error generating word cloud:', error);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpleWordCloud Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .input-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
+      padding: 8px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .output-section {
+      border: 1px solid #ddd;
+      padding: 20px;
+      border-radius: 5px;
+      min-height: 600px;
+    }
+    .wordcloud {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>SimpleWordCloud Demo</h1>
+  <div class="container">
+    <div class="input-section">
+      <h2>Input Text</h2>
+      <textarea id="text-input" placeholder="Enter text here..."></textarea>
+      <div class="controls">
+        <label for="language-select">Language:</label>
+        <select id="language-select">
+          <option value="english">English</option>
+          <option value="chinese">Chinese</option>
+        </select>
+        <button id="generate-btn">Generate Word Cloud</button>
+      </div>
+    </div>
+    <div class="output-section">
+      <h2>Word Cloud Output</h2>
+      <div id="wordcloud-container"></div>
+    </div>
+  </div>
+
+  <!-- Load the SimpleWordCloud library -->
+  <script src="../dist/browser/simplewordcloud.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sample texts
+      const sampleTexts = {
+        english: `
+        Ground Control to Major Tom
+        Ground Control to Major Tom
+        Take your protein pills and put your helmet on
+        Ground Control to Major Tom
+        Commencing countdown, engines on
+        Check ignition and may God's love be with you
+        Ten, Nine, Eight, Seven, Six, Five, Four, Three, Two, One, Lift off
+        This is Ground Control to Major Tom
+        You've really made the grade
+        And the papers want to know whose shirts you wear
+        Now it's time to leave the capsule if you dare
+        This is Major Tom to Ground Control
+        I'm stepping through the door
+        And I'm floating in a most peculiar way
+        And the stars look very different today
+        For here
+        Am I sitting in a tin can
+        Far above the world
+        Planet Earth is blue
+        And there's nothing I can do
+        Though I'm past one hundred thousand miles
+        I'm feeling very still
+        And I think my spaceship knows which way to go
+        Tell my wife I love her very much she knows
+        Ground Control to Major Tom
+        Your circuit's dead, there's something wrong
+        Can you hear me, Major Tom?
+        Can you hear me, Major Tom?
+        Can you hear me, Major Tom?
+        Can you...
+        Here am I floating round my tin can
+        Far above the Moon
+        Planet Earth is blue
+        And there's nothing I can do`,
+        
+        chinese: `
+        我的寂寞和我的泪
+        我的表现是无所谓
+        若要坚强需要受罪
+        若要后悔需要忏悔
+        最好闭上你的嘴
+
+        噓 对 这样才算可爱
+        尽管别人会感到奇怪
+        这不公道 我不能接受
+
+        处处寻找 寻找安慰
+        对我说来那太珍贵
+        人海茫茫不会后退
+        黑色梦中我去安睡
+
+        梦中没有错与对
+        梦中有安也有危
+        梦的时代我在胡说
+        梦醒时刻才会解脱
+        我不知道我不能去说
+        我不能 不能 不能...
+
+        梦中没有错与对
+        梦中有安也有危
+        梦的时代我在胡说
+        梦醒时刻才会解脱
+        我不知道我不能去说
+        我不能 不能 不能...
+        我不知道我不能去说
+        我不能 不能 不能...
+        我不知道我不能去说
+        `
+      };
+
+      // DOM elements
+      const textInput = document.getElementById('text-input');
+      const languageSelect = document.getElementById('language-select');
+      const generateBtn = document.getElementById('generate-btn');
+      const wordcloudContainer = document.getElementById('wordcloud-container');
+
+      // Set default sample text based on selected language
+      function setDefaultText() {
+        const language = languageSelect.value;
+        textInput.value = sampleTexts[language];
+      }
+
+      // Set initial text
+      setDefaultText();
+
+      // Update text when language changes
+      languageSelect.addEventListener('change', setDefaultText);
+
+      // Generate word cloud when button is clicked
+      generateBtn.addEventListener('click', () => {
+        const text = textInput.value;
+        const language = languageSelect.value;
+        
+        if (!text) {
+          alert('Please enter some text!');
+          return;
+        }
+        
+        // Word cloud options
+        const options = {
+          width: wordcloudContainer.offsetWidth,
+          height: 550,
+          maxWords: 100,
+          fontFamily: 'Arial, sans-serif',
+          rotationAngles: [0, 0, 90],
+          rotationProbability: 0.2
+        };
+        
+        // Generate word cloud
+        SimpleWordCloud.generateWordCloud(text, language, wordcloudContainer, options);
+      });
+
+      // Generate initial word cloud
+      generateBtn.click();
+    });
+  </script>
+</body>
+</html>
